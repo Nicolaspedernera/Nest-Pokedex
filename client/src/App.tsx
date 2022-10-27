@@ -1,13 +1,13 @@
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import {RequestAPI} from "./components/RequestAPI";
+import {PokemonResponse} from "./components/PokemonResponse";
 
 function App() {
   return (
     <main>
       <Navbar />
       <Header />
-      <RequestAPI />
+      <PokemonResponse />
     </main>
   );
 }

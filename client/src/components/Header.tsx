@@ -1,13 +1,13 @@
 import {Box, Center, Container, Image, Link, Text} from "@chakra-ui/react";
 
-import pokelogo from "../../public/pokeapi.png";
+import pokelogo from "/pokeapi.png";
 
 const Header = () => {
   return (
     <Box>
       <Box bg="blackAlpha.800">
         <Container maxW="container.lg">
-          <Center bg="gray.800" color="white" flexDir="column" p={10}>
+          <Center color="white" flexDir="column" p={10}>
             <Image src={pokelogo} />
             <Text fontSize="3xl">The RESTful Pokémon API</Text>
             <Text fontSize="lg">
