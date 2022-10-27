@@ -3,6 +3,8 @@
 /node_modules
 /mongo
 .env
+.env.prod
+.dockerignore
 yarn.lock
 # Logs
 logs
