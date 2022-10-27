@@ -1,6 +1,6 @@
 import {Center, HStack, Image, Text} from "@chakra-ui/react";
 
-import pokeapi from "../../public/pokeapi.png";
+import pokeapi from "/pokeapi.png";
 
 const Navbar = () => {
   return (
