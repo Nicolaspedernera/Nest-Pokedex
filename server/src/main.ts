@@ -15,6 +15,10 @@ async function bootstrap() {
       }
     }),
   );
+  app.enableCors({
+    origin:"https://pokedex-mu-beryl.vercel.app/",
+    optionsSuccessStatus:204
+  })
 
   await app.listen(process.env.PORT);
   console.log(`App running on port: "${process.env.PORT}"...`);
