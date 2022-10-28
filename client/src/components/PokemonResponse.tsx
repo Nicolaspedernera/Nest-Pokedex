@@ -1,4 +1,6 @@
 /* eslint-disable react/no-children-prop */
+import type {FC} from "react";
+
 import React, {useState} from "react";
 import {
   Box,
@@ -13,24 +15,13 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import {MdFileCopy} from "react-icons/md";
-import useSWR from "swr";
-
-import {fetcher} from "../utils/fetcher";
 
 import ResponseViewer from "./ResponseViewer";
 
 export const PokemonResponse = () => {
-  // TODO: change url
-  const [url, setUrl] = useState("https://pokeapi.co/api/v2/");
+  const url = import.meta.env.VITE_ENDPOINT_URI;
   const [path, setPath] = useState("pokemon/ditto");
   const [request, setRequest] = useState(`${url}${path}`);
-  const {data, error} = useSWR(`${request}`, fetcher);
-
-  function handleChangeRequest(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    const newPath = (e.target as any).innerText;
-
-    setRequest(`${url}${newPath}`);
-  }
 
   return (
     <Container maxW="container.lg">
@@ -64,31 +55,35 @@ export const PokemonResponse = () => {
         </Flex>
         <Flex alignItems="baseline" gap={1}>
           <Text mt={1}>Need a hint? Try</Text>
-          <Button variant="link" onClick={handleChangeRequest}>
-            pokemon/ditto
-          </Button>
-          ,{" "}
-          <Button variant="link" onClick={handleChangeRequest}>
-            pokemon-species/aegislash
-          </Button>
-          ,
-          <Button variant="link" onClick={handleChangeRequest}>
-            type/3
-          </Button>
-          ,
-          <Button variant="link" onClick={handleChangeRequest}>
-            pokemon?limit=50&offset=0
-          </Button>
-          ,
+          <EndpointLink path="pokemon/ditto" onClick={setRequest} />,
+          <EndpointLink path="pokemon-species/aegislash" onClick={setRequest} />,
+          <EndpointLink path="type/3" onClick={setRequest} />,
+          <EndpointLink path="pokemon?limit=50&offset=0" onClick={setRequest} />.
         </Flex>
-        {!data && !error ? (
-          <Text fontSize="2xl" h="calc(100vh - 80px)">
-            Loading...
-          </Text>
-        ) : (
-          <ResponseViewer response={data} title={request} />
-        )}
+
+        <ResponseViewer request={request} />
       </Box>
     </Container>
+  );
+};
+
+type EndpointLinkProps = {
+  path: string;
+  onClick: (req: string) => void;
+};
+
+const EndpointLink: FC<EndpointLinkProps> = ({path, onClick}) => {
+  const url = import.meta.env.VITE_ENDPOINT_URI;
+
+  function handleChangeRequest(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    const newPath = (e.target as any).innerText;
+
+    onClick(`${url}${newPath}`);
+  }
+
+  return (
+    <Button variant="link" onClick={handleChangeRequest}>
+      {path}
+    </Button>
   );
 };

@@ -2,20 +2,30 @@ import {FC, useState} from "react";
 import {Box, Button, Flex, Menu, MenuButton, MenuItem, MenuList, Text} from "@chakra-ui/react";
 import {JsonViewer, JsonViewerTheme} from "@textea/json-viewer";
 import {BsChevronDown} from "react-icons/bs";
+import useSWR from "swr";
+
+import {fetcher} from "../utils/fetcher";
+
+const errorMessage = {message: "Resource not found"};
+const loadingMessage = {message: "Loading resources"};
 
 type Props = {
-  response: unknown;
-  title: string;
+  request: string;
 };
 
-const ResponseViewer: FC<Props> = ({response, title}) => {
+const ResponseViewer: FC<Props> = ({request}) => {
+  const {data, error} = useSWR(`${request}`, fetcher);
   const [theme, setTheme] = useState<JsonViewerTheme>("dark");
 
   return (
     <Box my={5} w="full">
       <Flex alignItems="baseline" flexDir="row">
         <Text flex={1} fontSize="2xl" fontWeight="bold">
-          {response ? `Resource of ${title.split("v2/")[1]}` : `Resource not found`}
+          {!data && !error
+            ? "Loading..."
+            : data
+            ? `Resource of ${request.split("v2/")[1]}`
+            : `Resource not found`}
         </Text>
         <Menu>
           <MenuButton as={Button} colorScheme="blackAlpha" rightIcon={<BsChevronDown />} size="sm">
@@ -32,7 +42,7 @@ const ResponseViewer: FC<Props> = ({response, title}) => {
           defaultInspectDepth={2}
           displayDataTypes={false}
           theme={theme}
-          value={response}
+          value={!data && !error ? loadingMessage : !data ? errorMessage : data}
         />
       </Box>
     </Box>
