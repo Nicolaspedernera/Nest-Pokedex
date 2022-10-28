@@ -9,16 +9,18 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-      transform:true,
-      transformOptions:{
-        enableImplicitConversion:true
-      }
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
   app.enableCors({
-    origin:"https://pokedex-mu-beryl.vercel.app/",
-    optionsSuccessStatus:204
-  })
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
 
   await app.listen(process.env.PORT);
   console.log(`App running on port: "${process.env.PORT}"...`);
