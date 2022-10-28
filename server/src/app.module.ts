@@ -1,6 +1,6 @@
-import { join } from 'path';
+// import { join } from 'path';
 import { Module } from '@nestjs/common';
-import { ServeStaticModule } from '@nestjs/serve-static';
+// import { ServeStaticModule } from '@nestjs/serve-static';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommonModule } from './common/common.module';
@@ -15,9 +15,9 @@ import { JoiValidationSchema } from './config/joi.validation';
       load:[EnvConfiguration],
       validationSchema:JoiValidationSchema,
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'public'),
+    // }),
     MongooseModule.forRoot(process.env.MONGODB),
     PokemonModule,
     CommonModule,
